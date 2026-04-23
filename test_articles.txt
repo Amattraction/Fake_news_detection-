@@ -1,0 +1,81 @@
+================================================================
+FAKE NEWS DETECTOR — TEST ARTICLES
+================================================================
+Instructions: Copy any article below and paste into the web app.
+Expected result is shown before each article.
+================================================================
+
+
+--- TEST 1 | Expected: FAKE ---
+BREAKING: Scientists at a secret government lab have confirmed
+that the COVID-19 vaccine contains microchips designed to track
+citizens. Whistleblowers leaked internal documents proving that
+billionaires funded the development of these chips to monitor
+the population. The mainstream media is refusing to cover this
+story. Share immediately before this gets taken down!
+
+
+--- TEST 2 | Expected: FAKE ---
+SHOCKING REVELATION: The moon landing in 1969 was entirely
+staged in a Hollywood film studio. Newly recovered FBI documents
+show that director Stanley Kubrick was personally hired by NASA
+to fake the footage. Astronauts who tried to speak out were
+silenced. The government has been lying to us for decades.
+
+
+--- TEST 3 | Expected: FAKE ---
+URGENT: A new law passed in secret will allow the government to
+seize private bank accounts without warning starting next month.
+Senior officials confirmed this off the record. Your savings are
+not safe. Withdraw your money immediately and tell everyone you
+know before it is too late. The elite do not want you to know.
+
+
+--- TEST 4 | Expected: REAL ---
+The Senate passed a bipartisan infrastructure bill on Tuesday
+with a vote of 69 to 30, allocating 1.2 trillion dollars for
+roads, bridges, broadband internet, and public transit systems
+across the United States. President Biden signed the legislation
+into law on Monday in a ceremony at the White House attended by
+members of both political parties.
+
+
+--- TEST 5 | Expected: REAL ---
+Apple reported quarterly earnings that exceeded analyst
+expectations, with revenue rising 9 percent to 94.8 billion
+dollars driven by strong iPhone sales in international markets.
+Chief Executive Tim Cook said demand remained robust despite
+ongoing economic uncertainty, and the company issued a positive
+revenue forecast for the coming quarter.
+
+
+--- TEST 6 | Expected: REAL ---
+Researchers at Johns Hopkins University published findings in
+the New England Journal of Medicine showing that a new drug
+reduced the risk of heart attack by 23 percent in patients with
+high cholesterol. The clinical trial involved 12,000 participants
+over three years and was funded by the National Institutes of
+Health. Further trials are planned before the drug seeks FDA
+approval.
+
+
+--- TEST 7 | Expected: REAL ---
+The International Monetary Fund revised its global growth
+forecast downward to 2.8 percent for the current year, citing
+rising interest rates, persistent inflation, and reduced trade
+activity. The organization urged central banks to maintain
+cautious monetary policy while governments prepare targeted
+support for vulnerable populations facing rising living costs.
+
+
+--- TEST 8 | Expected: FAKE ---
+EXPOSED: Drinking a mixture of lemon juice and baking soda
+every morning has been proven to cure cancer, diabetes, and
+heart disease. Big Pharma has suppressed this information for
+50 years because they do not want you to be healthy. Thousands
+of patients have been cured using this simple home remedy that
+doctors will never tell you about. Forward this to everyone!
+
+================================================================
+END OF TEST FILE
+================================================================
