@@ -1,0 +1,84 @@
+## Fake News Detection — Model Description
+
+This project uses traditional machine learning techniques to classify news articles as either **FAKE** or **REAL**. The focus was kept on simplicity, interpretability, and efficiency rather than using heavy deep learning models.
+
+1. Text Representation (TF-IDF)
+
+---
+
+Before training any model, the text data is converted into numerical form using **TF-IDF (Term Frequency - Inverse Document Frequency)**.
+
+This method assigns importance to words based on:
+
+* How frequently they appear in a document
+* How rare they are across all documents
+
+This helps the model focus on meaningful words (like "breaking", "confirmed", "shocking") instead of common words (like "the", "is", "and").
+
+2. Logistic Regression
+
+---
+
+Logistic Regression is the primary model used in this project.
+
+Why it was chosen:
+
+* Works very well for text classification problems
+* Fast to train and efficient
+* Provides probability outputs (confidence score)
+* Easy to interpret
+
+The model learns patterns in word usage that distinguish fake news from real news. For example, fake news may contain exaggerated or sensational words more frequently.
+
+3. Naive Bayes (Comparison Model)
+
+---
+
+A Multinomial Naive Bayes model was also trained for comparison.
+
+Why it was included:
+
+* Common baseline model for text classification
+* Very fast and simple
+* Works well with word frequency-based features
+
+Although it performed reasonably well, Logistic Regression gave better overall results and was selected as the final model.
+
+4. Model Selection
+
+---
+
+Both models were evaluated using standard metrics:
+
+* Accuracy
+* Precision
+* Recall
+* F1 Score
+
+After evaluation and hyperparameter tuning (using GridSearchCV), the best-performing Logistic Regression model was selected and saved.
+
+Saved files:
+
+* best_model.pkl → trained classification model
+* tfidf_vectorizer.pkl → fitted vectorizer
+
+5. Limitations
+
+---
+
+* The model depends heavily on the training dataset (ISOT dataset)
+* It may not generalize perfectly to real-time or recent news
+* It does not verify sources or facts, only analyzes text patterns
+
+6. Future Improvements
+
+---
+
+* Use advanced models like LSTM, BERT, or transformers
+* Include source credibility analysis
+* Use larger and more diverse datasets
+* Improve preprocessing (lemmatization, named entity recognition)
+
+---
+
+## This project demonstrates how classical machine learning can be effectively used for real-world NLP tasks like fake news detection.
