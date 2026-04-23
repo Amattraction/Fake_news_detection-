@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FakeCheck</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f7f4;
+      color: #1a3a2a;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a6b5a, #1e88a8);
+      color: white;
+      padding: 20px 30px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 28px;
+      margin-bottom: 4px;
+    }
+
+    header p {
+      font-size: 13px;
+      opacity: 0.85;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 30px auto;
+      padding: 0 16px;
+    }
+
+    /* Warning banner */
+    .warning-banner {
+      background: #fff8e1;
+      border-left: 4px solid #f9a825;
+      color: #5d4037;
+      padding: 12px 16px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      color: #1a6b5a;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 160px;
+      padding: 12px;
+      font-size: 14px;
+      border: 1.5px solid #a8d5c2;
+      border-radius: 6px;
+      resize: vertical;
+      color: #1a3a2a;
+      background: #f8fdfa;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: #1e88a8;
+      background: white;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    #analyzeBtn {
+      flex: 1;
+      padding: 11px 20px;
+      font-size: 15px;
+      font-weight: bold;
+      background: linear-gradient(135deg, #1a6b5a, #1e88a8);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    #analyzeBtn:hover { opacity: 0.9; }
+    #analyzeBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    #clearBtn {
+      padding: 11px 20px;
+      font-size: 15px;
+      background: white;
+      color: #1a6b5a;
+      border: 1.5px solid #a8d5c2;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    #clearBtn:hover { background: #f0f7f4; }
+
+    .samples {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .samples span {
+      font-size: 13px;
+      color: #4a8a7a;
+    }
+
+    .sample-btn {
+      padding: 5px 14px;
+      font-size: 12px;
+      background: white;
+      color: #1a6b5a;
+      border: 1px solid #a8d5c2;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .sample-btn:hover { background: #e8f5ee; }
+
+    /* Result */
+    #result {
+      display: none;
+      border-radius: 8px;
+      padding: 22px 24px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+
+    #result.fake {
+      background: #fff5f5;
+      border: 2px solid #e53935;
+    }
+
+    #result.real {
+      background: #f0fbf5;
+      border: 2px solid #1a9e5f;
+    }
+
+    #result .verdict {
+      font-size: 30px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    #result.fake .verdict { color: #c62828; }
+    #result.real .verdict { color: #1a6b5a; }
+
+    #result .confidence {
+      font-size: 14px;
+      color: #4a7a6a;
+      margin-bottom: 12px;
+    }
+
+    .conf-bar-bg {
+      height: 8px;
+      background: #d0ece3;
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 8px 0 14px;
+    }
+
+    .conf-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.8s ease;
+    }
+
+    #result.fake .conf-bar-fill { background: #e53935; }
+    #result.real .conf-bar-fill { background: #1a9e5f; }
+
+    #result .preview {
+      font-size: 13px;
+      color: #7a9a8a;
+      font-style: italic;
+      border-top: 1px solid #d0ece3;
+      padding-top: 12px;
+      text-align: left;
+    }
+
+    /* Error */
+    #errorBox {
+      display: none;
+      padding: 14px 18px;
+      background: #fff5f5;
+      border: 1px solid #e53935;
+      border-radius: 6px;
+      color: #c62828;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      color: #7aaa9a;
+      border-top: 1px solid #c8e8d8;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>FakeCheck</h1>
+</header>
+
+<div class="container">
+
+  {% if not model_loaded %}
+  <div class="warning-banner">
+    &#9888; <strong>Model not loaded.</strong>
+    Run <code>python src/train.py</code> first, then restart the app.
+  </div>
+  {% endif %}
+
+  <div class="card">
+    <label for="newsInput">Paste a news article below:</label>
+    <textarea id="newsInput" placeholder="Enter a news article to check if it is real or fake..."></textarea>
+
+    <div class="btn-row">
+      <button id="analyzeBtn" onclick="analyze()" {% if not model_loaded %}disabled{% endif %}>
+        Analyze Article
+      </button>
+      <button id="clearBtn" onclick="clearAll()">Clear</button>
+    </div>
+
+    <div class="samples">
+      <span>Try a sample:</span>
+      <button class="sample-btn" onclick="loadSample('fake')">&#9888; Fake sample</button>
+      <button class="sample-btn" onclick="loadSample('real')">&#10003; Real sample</button>
+    </div>
+  </div>
+
+  <div id="errorBox"></div>
+
+  <div id="result">
+    <div class="verdict" id="verdictText"></div>
+    <div class="confidence" id="confidenceText"></div>
+    <div class="conf-bar-bg">
+      <div class="conf-bar-fill" id="confBar" style="width: 0%"></div>
+    </div>
+    <div class="preview" id="previewText"></div>
+  </div>
+
+</div>
+
+<footer>FakeCheck : Fake News Detection Project &mdash; Python &bull; Flask &bull; scikit-learn &bull; ISOT Dataset</footer>
+
+<script>
+  const samples = {
+    fake: "SHOCKING: Government scientists have confirmed that 5G towers are being used for mass surveillance and mind control across the country. Multiple whistleblowers have come forward with undeniable proof that world leaders are planning a depopulation agenda. The mainstream media is actively covering this up. Share this before it gets deleted!",
+    real: "The Federal Reserve raised its benchmark interest rate by 0.25 percentage points on Wednesday, bringing it to the highest level in 22 years. The decision was unanimous among members of the Federal Open Market Committee, as policymakers continued efforts to bring inflation down toward the 2 percent target."
+  };
+
+  function loadSample(type) {
+    document.getElementById('newsInput').value = samples[type];
+    hideAll();
+  }
+
+  function clearAll() {
+    document.getElementById('newsInput').value = '';
+    hideAll();
+  }
+
+  function hideAll() {
+    document.getElementById('result').style.display   = 'none';
+    document.getElementById('errorBox').style.display = 'none';
+  }
+
+  function showError(msg) {
+    const box = document.getElementById('errorBox');
+    box.textContent = msg;
+    box.style.display = 'block';
+    document.getElementById('result').style.display = 'none';
+  }
+
+  async function analyze() {
+    const text = document.getElementById('newsInput').value.trim();
+    if (!text)          { showError('Please enter some news text first.'); return; }
+    if (text.length < 20) { showError('Text is too short. Please paste a longer article.'); return; }
+
+    const btn = document.getElementById('analyzeBtn');
+    btn.disabled    = true;
+    btn.textContent = 'Analyzing...';
+    hideAll();
+
+    try {
+      const resp = await fetch('/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text })
+      });
+
+      const data = await resp.json();
+
+      if (!resp.ok || data.error) {
+        showError(data.error || 'Server error. Please try again.');
+        return;
+      }
+
+      const isFake  = data.prediction === 'FAKE';
+      const resultDiv = document.getElementById('result');
+
+      resultDiv.className = isFake ? 'fake' : 'real';
+
+      document.getElementById('verdictText').textContent =
+        isFake ? 'FAKE NEWS' : 'REAL NEWS';
+
+      document.getElementById('confidenceText').textContent =
+        data.confidence ? 'Confidence: ' + data.confidence + '%' : 'Prediction complete';
+
+      const bar = document.getElementById('confBar');
+      bar.style.width = '0%';
+      resultDiv.style.display = 'block';
+      setTimeout(() => { bar.style.width = (data.confidence || 75) + '%'; }, 80);
+
+      document.getElementById('previewText').textContent =
+        '"' + data.text_preview + '"';
+
+    } catch (err) {
+      showError('Could not connect to server. Make sure Flask is running on port 5000.');
+    } finally {
+      btn.disabled    = false;
+      btn.textContent = 'Analyze Article';
+    }
+  }
+</script>
+</body>
+</html>
